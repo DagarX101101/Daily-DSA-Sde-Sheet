@@ -1,0 +1,25 @@
+class Solution {
+public:
+    static bool comp(vector<int> &a, vector<int> &b) {
+        return a[0] < b[0];  // Sort intervals by starting time
+    }
+
+    vector<vector<int>> merge(vector<vector<int>>& v) {
+        int n = v.size();
+        sort(v.begin(), v.end(), comp);  // Step 1: Sort intervals by start time
+
+        vector<vector<int>> arr;  // Stores the merged intervals
+
+        for (int i = 0; i < n; i++) {
+            // If arr is empty or current interval doesn't overlap with the last
+            if (arr.empty() || v[i][0] > arr.back()[1]) {
+                arr.push_back(v[i]);  // No overlap → add as new interval
+            } else {
+                // Overlap → merge by updating the end of last interval
+                arr.back()[1] = max(arr.back()[1], v[i][1]);
+            }
+        }
+
+        return arr;
+    }
+};
